@@ -9,11 +9,14 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    const VERIFID_USER ='1';
+    const VERIFIED_USER ='1';
     const UNVERIFIED_USER = '0';
 
     const ADMIN_USER = 'true';
     const REGULAR_USER = 'false';
+
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
