@@ -35,4 +35,4 @@ Route::apiResource('products' , 'Product\ProductController',['only' => ['index',
 Route::apiResource('transactions' , 'Transaction\TransactionController',['only' => ['index', 'show']]);
 
 //users
-Route::apiResource('users' , 'Transaction\TransactionController',['except' => ['create', 'edit']]);
+Route::apiResource('users' , 'User\UserController',['except' => ['create', 'edit']]);
