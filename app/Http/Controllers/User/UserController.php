@@ -6,9 +6,10 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\ApiController;
 
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -18,25 +19,10 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return  response()->json(['data'=> $users], 200);
+        //return  response()->json(['data'=> $users], 200);
+        return $this->showAll($users);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
    		$rules = [
@@ -59,24 +45,20 @@ class UserController extends Controller
 	        $data['verification_token'] = User::generateVerificationCode();
 	        $data['admin'] = User::REGULAR_USER;
 		    $user = User::create($data);
-	        return response()->json(['data'=> $user], 201);
-
+	        //return response()->json(['data'=> $user], 201);
+            return $this->showOne($user, 201);
 		}
 		return $response;
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         $user= User::findOrFail($id);
 
-        return response()->json(['data',$user],200);
+       // return response()->json(['data',$user],200);
+        return $this->showOne($user);
     }
 
     /**
@@ -107,14 +89,6 @@ class UserController extends Controller
             'admin' => 'in:' . User::ADMIN_USER . ',' . User::REGULAR_USER,
         ];
 
-
-/*		$response = array('response' => '', 'success'=>false);
-
-		$validator = Validator::make($request->all(), $rules);
-
-		    if ($validator->fails()) {
-		        $response['response'] = $validator->messages();
-		    }else{*/
 
 		        if ($request->has('name')) {
 
@@ -147,10 +121,9 @@ class UserController extends Controller
 		        }
 
         	$user->save();
-	        return response()->json(['data'=> $user], 201);
-
-		//}
-		return $response;
+//	        return response()->json(['data'=> $user], 201);
+             return $this->showOne($user,201);
+//            return $response;
 
     }
 
@@ -164,6 +137,8 @@ class UserController extends Controller
     {
         $user= User::findOrFail($id);
         $user->delete();
-        return response()->json(['data'=> $user], 200);	
+//        return response()->json(['data'=> $user], 200);
+        return $this->showOne($user);
+
     }
 }
