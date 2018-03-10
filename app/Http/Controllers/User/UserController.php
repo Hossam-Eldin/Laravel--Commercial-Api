@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ApiController;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class UserController extends ApiController
@@ -55,10 +56,14 @@ class UserController extends ApiController
 
     public function show($id)
     {
-        $user= User::findOrFail($id);
+        $user= User::find($id);
 
-       // return response()->json(['data',$user],200);
+         if ( ! $user){ 
+              return $this->errorResponse("Does not exists any  with the specified identificator", 404); 
+            }
+
         return $this->showOne($user);
+
     }
 
     /**

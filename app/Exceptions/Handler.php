@@ -4,8 +4,13 @@ namespace App\Exceptions;
 
 use App\Traits\ApiResponser;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\Debug\Exception\getStatusCode;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -52,10 +57,42 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exceptions instanceof ValidationException) {
+        if ($exception instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($exception, $request);
         }
-        return parent::render($request, $exception);
+
+       if ($exception instanceof ModelNotFoundException) {
+            // $modelName = strtolower(class_basename($exception->getModel()));
+            return $this->errorResponse("Does not exists any  with the specified identificator", 404);
+        }
+
+        if ($exception instanceof NotFoundHttpException){
+             return $this->errorResponse("This specified Url Cannot be found", 404);
+        }     
+
+        if ($exception instanceof MethodNotAllowedHttpException){
+             return $this->errorResponse("This specified Method Cannot be found", 405);
+        }      
+
+        if ($exception instanceof HttpException){
+             return $this->errorResponse($exception->getMessage(),$exception->getStatusCode());
+        }
+
+        if ($exception instanceof QueryException){
+             $errorCode = $exception->errorInfo[1];
+             if ($errorCode == 1451){
+                  return $this->errorResponse('Cannot remove this resource permanently . it is related 
+                    with any other resource', 409);  
+             }
+             //1451
+        }
+        
+        if (config('app.debug')) {
+            return parent::render($request, $exception);
+        }
+
+        return $this->errorResponse('Unexpacted Exception . Try Later', 500);
+      // return parent::render($request, $exception);
     }
 
         /**

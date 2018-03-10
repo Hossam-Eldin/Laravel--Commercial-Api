@@ -19,20 +19,20 @@ use Illuminate\Http\Request;
 
 
 // Buyer 
-Route::apiResource('buyers', 'Buyer\BuyerController',['only'=>['index','show']]);
+Route::resource('buyers', 'Buyer\BuyerController',['only'=>['index','show']]);
 
 
 // Category
-Route::apiResource('categories', 'Category\CategoryController',['except' => ['create','edit']]);
+Route::resource('categories', 'Category\CategoryController',['except' => ['create','edit']]);
 
 //Sellers
-Route::apiResource('sellers' , 'Seller\SellerController',['only' => ['index', 'show']]);
+Route::resource('sellers' , 'Seller\SellerController',['only' => ['index', 'show']]);
 
 //products
-Route::apiResource('products' , 'Product\ProductController',['only' => ['index', 'show']]);
+Route::resource('products' , 'Product\ProductController',['only' => ['index', 'show']]);
 
 //transaction
-Route::apiResource('transactions' , 'Transaction\TransactionController',['only' => ['index', 'show']]);
+Route::resource('transactions' , 'Transaction\TransactionController',['only' => ['index', 'show']]);
 
 //users
-Route::apiResource('users' , 'User\UserController',['except' => ['create', 'edit']]);
+Route::resource('users' , 'User\UserController',['except' => ['create', 'edit']]);
