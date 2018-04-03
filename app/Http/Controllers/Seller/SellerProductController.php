@@ -6,9 +6,10 @@ use App\Http\Controllers\ApiController;
 use App\Product;
 use App\Seller;
 use App\User;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SellerProductController extends ApiController
 {
@@ -96,6 +97,11 @@ class SellerProductController extends ApiController
             return $this->errorResponse('You need to specify a different value to update', 422);
         }
 
+        if ($request->hasFile('image')) {
+            # code...
+            Storage::delete($product->image);
+            $product->image = $product->image->store('');
+        }
         $product->save();
         return $this->showOne($product);
     }
@@ -109,6 +115,7 @@ class SellerProductController extends ApiController
     public function destroy(Seller $seller, Product $product)
     {
         $this->checkSeller($seller, $product);
+        Storage::delete($product->image);
         $product->delete();
         return $this->showOne($product);
     }
