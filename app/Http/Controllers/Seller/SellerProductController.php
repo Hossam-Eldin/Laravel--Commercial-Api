@@ -46,14 +46,16 @@ class SellerProductController extends ApiController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
+
                 $response['response'] = $validator->messages();
-        
-            }else{
+    
+            }
+            else{
 
              $data = $request->all();
 
              $data['status'] = Product::UNAVAILABLE_PRODUCT;
-             $data['image']  = '1.jpg';
+             $data['image']  = $request->image->store('');
              $data['seller_id'] = $seller->id;
              $product = Product::create($data);
             //return response()->json(['data'=> $user], 201);

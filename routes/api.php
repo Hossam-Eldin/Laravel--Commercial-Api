@@ -44,6 +44,7 @@ Route::resource('sellers.products' , 'Seller\SellerProductController',['except' 
 //products
 Route::resource('products' , 'Product\ProductController',['only' => ['index', 'show']]);
 Route::resource('products.transactions' , 'Product\ProductTransactionController',['only' => ['index']]);
+Route::resource('products.buyer.transactions' , 'Product\ProductBuyerTransactionController',['only' => ['store']]);
 Route::resource('products.buyers' , 'Product\ProductBuyerController',['only' => ['index']]);
 Route::resource('products.categories' , 'Product\ProductCategoryController',['only' => ['index','update','destroy']]);
 
