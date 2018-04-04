@@ -43,7 +43,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'verification_token',
+        'password', 'remember_token', 
+        'verification_token',
     ];
 
     public  function setNameAttribute($name){
@@ -58,7 +59,7 @@ class User extends Authenticatable
     }
 
     public function isVerified() {
-        return $this->verified == User::VERIFID_USER;
+        return $this->verified == User::VERIFIED_USER;
     }
 
     public function isAdmin(){
