@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 
 // Buyer 
 Route::resource('buyers', 'Buyer\BuyerController',['only'=>['index','show']]);
-Route::resource('buyers.transaction', 'Buyer\BuyerTransactionController',['only'=>['index']]);
+Route::resource('buyers.transactions', 'Buyer\BuyerTransactionController',['only'=>['index']]);
 Route::resource('buyers.products', 'Buyer\BuyerProductController',['only'=>['index']]);
 Route::resource('buyers.sellers', 'Buyer\BuyerSellerController',['only'=>['index']]);
 Route::resource('buyers.categories', 'Buyer\BuyerCategoryController',['only'=>['index']]);
